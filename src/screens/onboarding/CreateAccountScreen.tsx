@@ -9,7 +9,7 @@ import { RootStackParamList } from '../../navigation';
 import { Colors, Fonts, FontSizes, Spacing } from '../../constants';
 import TopNav from '../../components/TopNav';
 import GradientButton from '../../components/GradientButton';
-import { MailIcon, LockIcon, EyeIcon, AppleIcon, GoogleIcon } from '../../components/Icon';
+import { MailIcon, LockIcon, EyeIcon } from '../../components/Icon';
 
 type Props = {
   navigation: NativeStackNavigationProp<RootStackParamList, 'CreateAccount'>;
@@ -65,33 +65,7 @@ export default function CreateAccountScreen({ navigation }: Props) {
             </TouchableOpacity>
           </View>
 
-          {/* Divider */}
-          <View style={styles.divider}>
-            <View style={styles.dividerLine} />
-            <Text style={styles.dividerText}>or sign up with</Text>
-            <View style={styles.dividerLine} />
-          </View>
-
-          {/* Social buttons */}
-          <View style={styles.socialRow}>
-            <TouchableOpacity
-              style={[styles.socialBtn, styles.socialDark]}
-              activeOpacity={0.85}
-              onPress={() => navigation.navigate('Gender')}
-            >
-              <AppleIcon color={Colors.white} />
-              <Text style={styles.socialText}>Apple</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={[styles.socialBtn, styles.socialGhost]}
-              activeOpacity={0.85}
-              onPress={() => navigation.navigate('Gender')}
-            >
-              <GoogleIcon />
-              <Text style={styles.socialText}>Google</Text>
-            </TouchableOpacity>
-          </View>
+          
 
           <GradientButton
             label="Continue"
