@@ -65,11 +65,10 @@ export default function CreateAccountScreen({ navigation }: Props) {
             </TouchableOpacity>
           </View>
 
-          
-
           <GradientButton
             label="Continue"
             onPress={() => navigation.navigate('Gender')}
+            style={styles.continueButton}
           />
         </ScrollView>
       </KeyboardAvoidingView>
@@ -123,47 +122,7 @@ const styles = StyleSheet.create({
     fontSize: FontSizes.body,
     color: Colors.white,
   },
-  divider: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginVertical: 28,
-    gap: 12,
-  },
-  dividerLine: {
-    flex: 1,
-    height: 1,
-    backgroundColor: Colors.border,
-  },
-  dividerText: {
-    fontFamily: Fonts.body,
-    fontSize: FontSizes.label,
-    color: Colors.textSecondary,
-  },
-  socialRow: {
-    flexDirection: 'row',
-    gap: 12,
-    marginBottom: 28,
-  },
-  socialBtn: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 8,
-    height: 56,
-    borderRadius: Spacing.buttonRadius,
-  },
-  socialDark: {
-    backgroundColor: '#1A1A1A',
-  },
-  socialGhost: {
-    borderWidth: 1.5,
-    borderColor: Colors.border,
-  },
-  socialText: {
-    fontFamily: Fonts.body,
-    fontSize: 15,
-    fontWeight: '600',
-    color: Colors.white,
+  continueButton: {
+    marginTop: 40,
   },
 });
