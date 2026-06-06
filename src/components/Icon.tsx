@@ -1,4 +1,4 @@
-import Svg, { Path, Rect, Circle } from 'react-native-svg';
+import Svg, { Path, Rect, Circle, Polyline } from 'react-native-svg';
 
 type Props = { size?: number; color?: string };
 
@@ -59,5 +59,38 @@ export const FemaleIcon = ({ size = 38, color = '#fff' }: Props) => (
   <Svg width={size} height={size} viewBox="0 0 24 24">
     <Circle cx="12" cy="9" r="5.5" {...s(color)} />
     <Path d="M12 14.5V21m-3-3h6" {...s(color)} />
+  </Svg>
+);
+
+export const FlameIcon = ({ size = 26, color = '#fff' }: Props) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24">
+    <Path d="M12 3c.5 3-2 4.2-2 6.5C10 11 11 12 11 12s.5-1 .5-2.5C13 11 15 12.2 15 15a4 4 0 0 1-8 0c0-1.4.6-2.6 1.2-3.6C8.8 13 9 14 9 14" {...s(color)} strokeWidth={1.7} />
+    <Path d="M14.5 6.5c2 1.6 3.5 4 3.5 7a6 6 0 0 1-12 0c0-1 .2-1.8.5-2.6" {...s(color)} strokeWidth={1.7} />
+  </Svg>
+);
+
+export const MuscleIcon = ({ size = 26, color = '#fff' }: Props) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24">
+    <Path d="M4 9.5v5M7 7.5v9M17 7.5v9M20 9.5v5M7 12h10" {...s(color)} strokeWidth={1.9} />
+  </Svg>
+);
+
+export const HeartIcon = ({ size = 26, color = '#fff' }: Props) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24">
+    <Path d="M12 20s-7-4.4-7-9.3A3.7 3.7 0 0 1 12 8a3.7 3.7 0 0 1 7 2.7C19 15.6 12 20 12 20Z" {...s(color)} strokeWidth={1.7} />
+    <Path d="M5 13h3l1.5-2.5L11.5 15 13 12h6" {...s(color)} strokeWidth={1.7} />
+  </Svg>
+);
+
+export const CheckIcon = ({ size = 14, color = '#fff' }: Props) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24">
+    <Polyline
+      points="20 6 9 17 4 12"
+      stroke={color}
+      strokeWidth={3}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      fill="none"
+    />
   </Svg>
 );
