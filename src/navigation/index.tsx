@@ -2,8 +2,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SplashScreen from '../screens/onboarding/SplashScreen';
 import CreateAccountScreen from '../screens/onboarding/CreateAccountScreen';
 import GenderScreen from '../screens/onboarding/GenderScreen';
+import AboutYouScreen from '../screens/onboarding/AboutYouScreen';
 
-// All screen names declared upfront — screens are added to the navigator as they are built
 export type RootStackParamList = {
   Splash: undefined;
   CreateAccount: undefined;
@@ -28,6 +28,7 @@ export default function RootNavigator() {
       <Stack.Screen name="Splash" component={SplashScreen} />
       <Stack.Screen name="CreateAccount" component={CreateAccountScreen} />
       <Stack.Screen name="Gender" component={GenderScreen} />
+      <Stack.Screen name="AboutYou" component={AboutYouScreen} />
     </Stack.Navigator>
   );
 }
