@@ -47,3 +47,17 @@ export const GoogleIcon = ({ size = 20 }: { size?: number }) => (
     <Path fill="#EA4335" d="M12 5.9c1.5 0 2.8.5 3.8 1.5l2.8-2.8A10 10 0 0 0 12 2a10 10 0 0 0-8.9 5.4L6.4 10c.8-2.4 3-4.1 5.6-4.1Z" />
   </Svg>
 );
+
+export const MaleIcon = ({ size = 38, color = '#fff' }: Props) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24">
+    <Circle cx="10" cy="14" r="5.5" {...s(color)} />
+    <Path d="M14.2 9.8 20 4m0 0h-4.5M20 4v4.5" {...s(color)} />
+  </Svg>
+);
+
+export const FemaleIcon = ({ size = 38, color = '#fff' }: Props) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24">
+    <Circle cx="12" cy="9" r="5.5" {...s(color)} />
+    <Path d="M12 14.5V21m-3-3h6" {...s(color)} />
+  </Svg>
+);
