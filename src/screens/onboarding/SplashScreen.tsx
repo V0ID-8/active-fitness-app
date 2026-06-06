@@ -34,9 +34,9 @@ export default function SplashScreen({ navigation }: Props) {
           <TouchableOpacity
             style={styles.btnWhite}
             activeOpacity={0.88}
-            onPress={() => {
-              // Navigate to CreateAccount — will be wired in Step 3
-            }}
+            onPress={() => navigation.navigate('CreateAccount')}
+
+            
           >
             <Text style={styles.btnWhiteText}>Get Started</Text>
           </TouchableOpacity>
@@ -45,9 +45,8 @@ export default function SplashScreen({ navigation }: Props) {
             Already a member?{' '}
             <Text
               style={styles.loginLink}
-              onPress={() => {
-                // Navigate to Home — will be wired in Step 3
-              }}
+              onPress={() => navigation.navigate('CreateAccount')}
+              
             >
               Log in
             </Text>
