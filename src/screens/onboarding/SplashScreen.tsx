@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, Image } from 'react-native';
+import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -29,8 +29,30 @@ export default function SplashScreen({ navigation }: Props) {
           <Text style={styles.tagline}>Train smarter. Live active.</Text>
         </View>
 
-        {/* Placeholder footer — buttons come in next commit */}
-        <View style={styles.footer} />
+        {/* Bottom: Get Started + Log in */}
+        <View style={styles.footer}>
+          <TouchableOpacity
+            style={styles.btnWhite}
+            activeOpacity={0.88}
+            onPress={() => {
+              // Navigate to CreateAccount — will be wired in Step 3
+            }}
+          >
+            <Text style={styles.btnWhiteText}>Get Started</Text>
+          </TouchableOpacity>
+
+          <Text style={styles.loginLine}>
+            Already a member?{' '}
+            <Text
+              style={styles.loginLink}
+              onPress={() => {
+                // Navigate to Home — will be wired in Step 3
+              }}
+            >
+              Log in
+            </Text>
+          </Text>
+        </View>
       </SafeAreaView>
     </LinearGradient>
   );
@@ -68,6 +90,31 @@ const styles = StyleSheet.create({
     letterSpacing: 0.3,
   },
   footer: {
-    height: 120,
+    paddingBottom: 12,
+    gap: 16,
+    alignItems: 'center',
+  },
+  btnWhite: {
+    backgroundColor: Colors.white,
+    borderRadius: Spacing.buttonRadius,
+    height: 60,
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  btnWhiteText: {
+    fontFamily: Fonts.body,
+    fontSize: 18,
+    fontWeight: '700',
+    color: Colors.purple,
+  },
+  loginLine: {
+    fontFamily: Fonts.body,
+    fontSize: FontSizes.bodySmall,
+    color: 'rgba(255,255,255,0.85)',
+  },
+  loginLink: {
+    fontWeight: '700',
+    color: Colors.white,
   },
 });
