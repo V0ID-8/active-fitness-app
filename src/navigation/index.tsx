@@ -3,6 +3,7 @@ import SplashScreen from '../screens/onboarding/SplashScreen';
 import CreateAccountScreen from '../screens/onboarding/CreateAccountScreen';
 import GenderScreen from '../screens/onboarding/GenderScreen';
 import AboutYouScreen from '../screens/onboarding/AboutYouScreen';
+import GoalScreen from '../screens/onboarding/GoalScreen';
 
 export type RootStackParamList = {
   Splash: undefined;
@@ -29,6 +30,7 @@ export default function RootNavigator() {
       <Stack.Screen name="CreateAccount" component={CreateAccountScreen} />
       <Stack.Screen name="Gender" component={GenderScreen} />
       <Stack.Screen name="AboutYou" component={AboutYouScreen} />
+      <Stack.Screen name="Goal" component={GoalScreen} />
     </Stack.Navigator>
   );
 }
