@@ -7,6 +7,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation';
 import { Colors, Fonts, FontSizes, Spacing } from '../../constants';
+import { onboardingStore } from '../../utils/onboardingStore';
 import TopNav from '../../components/TopNav';
 import GradientButton from '../../components/GradientButton';
 
@@ -123,7 +124,12 @@ export default function AboutYouScreen({ navigation }: Props) {
         <View style={styles.footer}>
           <GradientButton
             label="Continue"
-            onPress={() => navigation.navigate('Goal')}
+            onPress={() => {
+              onboardingStore.age = age;
+              onboardingStore.heightCm = height;
+              onboardingStore.weightKg = weight;
+              navigation.navigate('Goal');
+            }}
           />
         </View>
       </View>

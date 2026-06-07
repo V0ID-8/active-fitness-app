@@ -5,6 +5,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation';
 import { Colors, Fonts, FontSizes, Spacing, Gradients } from '../../constants';
+import { onboardingStore } from '../../utils/onboardingStore';
 import TopNav from '../../components/TopNav';
 import GradientButton from '../../components/GradientButton';
 import { MaleIcon, FemaleIcon } from '../../components/Icon';
@@ -95,7 +96,10 @@ export default function GenderScreen({ navigation }: Props) {
         <View style={styles.footer}>
           <GradientButton
             label="Continue"
-            onPress={() => navigation.navigate('AboutYou')}
+            onPress={() => {
+              onboardingStore.gender = selected;
+              navigation.navigate('AboutYou');
+            }}
           />
         </View>
       </View>

@@ -5,6 +5,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation';
 import { Colors, Fonts, FontSizes, Spacing, Gradients } from '../../constants';
+import { onboardingStore } from '../../utils/onboardingStore';
 import TopNav from '../../components/TopNav';
 import GradientButton from '../../components/GradientButton';
 import { FlameIcon, MuscleIcon, HeartIcon, CheckIcon } from '../../components/Icon';
@@ -124,7 +125,10 @@ export default function GoalScreen({ navigation }: Props) {
         <View style={styles.footer}>
           <GradientButton
             label="Create my plan"
-            onPress={() => navigation.navigate('Done')}
+            onPress={() => {
+              onboardingStore.goal = selected;
+              navigation.navigate('Done');
+            }}
           />
         </View>
       </View>

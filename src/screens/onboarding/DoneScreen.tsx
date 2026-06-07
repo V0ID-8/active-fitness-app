@@ -4,31 +4,78 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Colors, Fonts, FontSizes, Spacing, Gradients } from '../../constants';
 import GradientButton from '../../components/GradientButton';
-import { CheckIcon, FlameIcon, HeartIcon, MuscleIcon } from '../../components/Icon';
+import { CheckIcon, FlameIcon, BoltIcon, MuscleIcon } from '../../components/Icon';
 import { authService, getAuthErrorMessage } from '../../services/authService';
+import { userService } from '../../services/userService';
 import { onboardingStore } from '../../utils/onboardingStore';
+import { calculateFullProfile } from '../../utils/calculations';
+import { Goal } from '../../types';
 
-const SUMMARY = [
-  { Icon: FlameIcon,  label: 'Goal',    value: 'Gain Muscle'   },
-  { Icon: HeartIcon,  label: 'Fitness', value: 'Intermediate'  },
-  { Icon: MuscleIcon, label: 'Plan',    value: '5 days / week' },
-];
+const GOAL_LABELS: Record<Goal, string> = {
+  lose: 'Lose Weight',
+  gain: 'Gain Muscle',
+  fit:  'Keep Fit',
+};
 
 export default function DoneScreen() {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError]     = useState('');
+
+  // Calculate real targets from the data collected in onboarding
+  const calc = calculateFullProfile(
+    onboardingStore.gender,
+    onboardingStore.weightKg,
+    onboardingStore.heightCm,
+    onboardingStore.age,
+    onboardingStore.activityLevel,
+    onboardingStore.goal,
+  );
+
+  const summary = [
+    {
+      Icon:  FlameIcon,
+      label: 'Goal',
+      value: GOAL_LABELS[onboardingStore.goal],
+    },
+    {
+      Icon:  BoltIcon,
+      label: 'Daily calories',
+      value: `${calc.calorieGoal.toLocaleString()} kcal`,
+    },
+    {
+      Icon:  MuscleIcon,
+      label: 'Protein target',
+      value: `${calc.proteinGoalG} g / day`,
+    },
+  ];
 
   async function handleStart() {
     setError('');
     setLoading(true);
     try {
-      await authService.signUp(
+      const user = await authService.signUp(
         onboardingStore.email,
         onboardingStore.password,
         onboardingStore.displayName || 'Active User',
       );
-      // useAuth in App.tsx detects the Firebase auth state change and
-      // automatically switches the navigator to MainNavigator — no navigation.reset needed.
+
+      await userService.createUserProfile(user.uid, {
+        email:          onboardingStore.email,
+        displayName:    onboardingStore.displayName || 'Active User',
+        gender:         onboardingStore.gender,
+        age:            onboardingStore.age,
+        heightCm:       onboardingStore.heightCm,
+        weightKg:       onboardingStore.weightKg,
+        goal:           onboardingStore.goal,
+        activityLevel:  onboardingStore.activityLevel,
+        bmr:            calc.bmr,
+        tdee:           calc.tdee,
+        calorieGoal:    calc.calorieGoal,
+        proteinGoalG:   calc.proteinGoalG,
+        carbGoalG:      calc.carbGoalG,
+        fatGoalG:       calc.fatGoalG,
+      });
+      // Firebase auth state change → App.tsx switches to MainNavigator automatically
     } catch (e: any) {
       setError(getAuthErrorMessage(e.code));
       setLoading(false);
@@ -39,7 +86,7 @@ export default function DoneScreen() {
     <SafeAreaView style={styles.safe}>
       <View style={styles.body}>
 
-        {/* Hero: gradient ring + check */}
+        {/* Hero */}
         <View style={styles.heroWrap}>
           <LinearGradient
             colors={Gradients.primary.colors}
@@ -53,16 +100,18 @@ export default function DoneScreen() {
           </LinearGradient>
         </View>
 
-        {/* Headline */}
         <Text style={styles.headline}>You're{'\n'}all set.</Text>
         <Text style={styles.sub}>
           Your personalised plan is ready. Time to get to work.
         </Text>
 
-        {/* Summary rows */}
+        {/* Real calculated summary */}
         <View style={styles.summaryBox}>
-          {SUMMARY.map(({ Icon, label, value }, i) => (
-            <View key={label} style={[styles.summaryRow, i === SUMMARY.length - 1 && styles.summaryRowLast]}>
+          {summary.map(({ Icon, label, value }, i) => (
+            <View
+              key={label}
+              style={[styles.summaryRow, i === summary.length - 1 && styles.summaryRowLast]}
+            >
               <View style={styles.summaryIcon}>
                 <Icon size={18} color={Colors.pink} />
               </View>
