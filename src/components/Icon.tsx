@@ -173,3 +173,11 @@ export const TrophyIcon = ({ size = 24, color = '#fff' }: Props) => (
     <Path d="M7 6H4v1a3 3 0 0 0 3 3M17 6h3v1a3 3 0 0 1-3 3M9 19h6M12 14v5" {...s(color)} />
   </Svg>
 );
+
+
+export const SearchIcon = ({ size = 22, color = '#fff' }: Props) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24">
+    <Circle cx="11" cy="11" r="7" {...s(color)} strokeWidth={1.9} />
+    <Path d="m20 20-3.5-3.5" {...s(color)} strokeWidth={1.9} />
+  </Svg>
+);
