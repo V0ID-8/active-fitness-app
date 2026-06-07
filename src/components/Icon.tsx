@@ -181,3 +181,35 @@ export const SearchIcon = ({ size = 22, color = '#fff' }: Props) => (
     <Path d="m20 20-3.5-3.5" {...s(color)} strokeWidth={1.9} />
   </Svg>
 );
+
+export const SunriseIcon = ({ size = 24, color = '#fff' }: Props) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24">
+    <Path d="M12 3v3M5 9l1.6 1.6M19 9l-1.6 1.6M2 18h20M4.5 14a7.5 7.5 0 0 1 15 0" {...s(color)} />
+  </Svg>
+);
+
+export const BowlIcon = ({ size = 24, color = '#fff' }: Props) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24">
+    <Path d="M3 11h18a8 8 0 0 1-8 8H11a8 8 0 0 1-8-8Z" {...s(color)} />
+    <Path d="M9 7c0-1.5 1-2 1.5-3M13.5 7c0-1.5 1-2 1.5-3" {...s(color)} />
+  </Svg>
+);
+
+export const CookieIcon = ({ size = 24, color = '#fff' }: Props) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24">
+    <Path d="M12 3a9 9 0 1 0 9 9 3.2 3.2 0 0 1-4-4 3.2 3.2 0 0 1-5-5Z" {...s(color)} />
+    <Path d="M9.5 12.5h.01M14 14.5h.01M11 16.5h.01" {...s(color)} strokeWidth={2.5} />
+  </Svg>
+);
+
+export const PlusIcon = ({ size = 18, color = '#fff' }: Props) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24">
+    <Path d="M12 5v14M5 12h14" {...s(color)} strokeWidth={2.1} />
+  </Svg>
+);
+
+export const CaretDownIcon = ({ size = 14, color = '#fff' }: Props) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24">
+    <Polyline points="6 9 12 15 18 9" stroke={color} strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" fill="none" />
+  </Svg>
+);
