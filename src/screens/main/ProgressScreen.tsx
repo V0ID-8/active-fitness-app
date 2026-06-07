@@ -7,7 +7,7 @@ import Svg, {
 } from 'react-native-svg';
 import { Colors, Fonts, FontSizes, Spacing, Gradients } from '../../constants';
 import AppHeader from '../../components/AppHeader';
-import { CaretDownIcon } from '../../components/Icon';
+import { CaretDownIcon, MuscleIcon, DumbbellIcon, BoltIcon } from '../../components/Icon';
 
 // Weight data and chart geometry
 const WDATA = [68.6, 69.3, 70.1, 70.6, 71.3, 72.0];
@@ -24,6 +24,15 @@ const areaPath = `${linePath} L${CW} ${CH} L0 ${CH} Z`;
 const lastPt = pts[pts.length - 1];
 
 const WEEK_LABELS = ['Wk1', 'Wk2', 'Wk3', 'Wk4', 'Wk5', 'Now'];
+const BARS = [40, 62, 35, 78, 55, 90, 48];
+const DAYS = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+const ACTIVE_BAR = 5;
+
+const RECORDS = [
+  { Icon: MuscleIcon,   title: 'Bench Press', sub: 'Mar 2 · +5 kg',   value: '60 kg' },
+  { Icon: DumbbellIcon, title: 'Deadlift',    sub: 'Feb 26 · +10 kg', value: '80 kg' },
+  { Icon: BoltIcon,     title: 'Squat',       sub: 'Feb 20 · +2.5 kg', value: '90 kg' },
+];
 
 export default function ProgressScreen() {
   return (
@@ -110,6 +119,63 @@ export default function ProgressScreen() {
             <View key={s.label} style={styles.statCell}>
               <Text style={styles.statValue}>{s.value}</Text>
               <Text style={styles.statLabel}>{s.label}</Text>
+            </View>
+          ))}
+        </View>
+
+        {/* Weekly activity */}
+        <View style={styles.sectionHeader}>
+          <Text style={styles.sectionTitle}>This week</Text>
+          <Text style={styles.sectionMore}>4 / 5</Text>
+        </View>
+        <View style={styles.chartCard}>
+          <View style={styles.chartTop}>
+            <View>
+              <Text style={styles.chartTitle}>Weekly activity</Text>
+              <Text style={styles.chartSub}>4 of 5 workouts done</Text>
+            </View>
+            <Text style={styles.delta}>▲ 12%</Text>
+          </View>
+          <View style={styles.barsRow}>
+            {BARS.map((h, i) => (
+              <View
+                key={i}
+                style={[
+                  styles.bar,
+                  { height: (h / 100) * 72 },
+                  i === ACTIVE_BAR && styles.barActive,
+                ]}
+              />
+            ))}
+          </View>
+          <View style={styles.dayLabels}>
+            {DAYS.map((d, i) => (
+              <Text key={i} style={styles.dayLabel}>{d}</Text>
+            ))}
+          </View>
+        </View>
+
+        {/* Personal records */}
+        <View style={styles.sectionHeader}>
+          <Text style={styles.sectionTitle}>Personal records</Text>
+          <Text style={styles.sectionMore}>All</Text>
+        </View>
+        <View style={styles.recordsList}>
+          {RECORDS.map((r) => (
+            <View key={r.title} style={styles.recordRow}>
+              <LinearGradient
+                colors={Gradients.primary.colors}
+                start={Gradients.primary.start}
+                end={Gradients.primary.end}
+                style={styles.recordThumb}
+              >
+                <r.Icon size={22} color={Colors.white} />
+              </LinearGradient>
+              <View style={styles.recordText}>
+                <Text style={styles.recordTitle}>{r.title}</Text>
+                <Text style={styles.recordSub}>{r.sub}</Text>
+              </View>
+              <Text style={styles.recordValue}>{r.value}</Text>
             </View>
           ))}
         </View>
@@ -214,5 +280,86 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.body,
     fontSize: FontSizes.label,
     color: Colors.textSecondary,
+  },
+  sectionHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  sectionTitle: {
+    fontFamily: Fonts.body,
+    fontSize: 16,
+    fontWeight: '700',
+    color: Colors.white,
+  },
+  sectionMore: {
+    fontFamily: Fonts.body,
+    fontSize: FontSizes.label,
+    color: Colors.textSecondary,
+  },
+  barsRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    height: 72,
+    gap: 6,
+  },
+  bar: {
+    flex: 1,
+    borderRadius: 4,
+    backgroundColor: Colors.surfaceRaised,
+  },
+  barActive: {
+    backgroundColor: Colors.pink,
+  },
+  dayLabels: {
+    flexDirection: 'row',
+    marginTop: 8,
+    gap: 6,
+  },
+  dayLabel: {
+    flex: 1,
+    textAlign: 'center',
+    fontFamily: Fonts.body,
+    fontSize: FontSizes.labelSmall,
+    color: Colors.textTertiary,
+  },
+  recordsList: {
+    gap: 10,
+  },
+  recordRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: Colors.surface,
+    borderRadius: 16,
+    padding: 14,
+    gap: 14,
+  },
+  recordThumb: {
+    width: 48,
+    height: 48,
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  recordText: {
+    flex: 1,
+    gap: 3,
+  },
+  recordTitle: {
+    fontFamily: Fonts.body,
+    fontSize: 15,
+    fontWeight: '700',
+    color: Colors.white,
+  },
+  recordSub: {
+    fontFamily: Fonts.body,
+    fontSize: FontSizes.label,
+    color: Colors.textSecondary,
+  },
+  recordValue: {
+    fontFamily: Fonts.display,
+    fontSize: 20,
+    color: Colors.white,
   },
 });
