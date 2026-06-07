@@ -4,7 +4,11 @@ import { LinearGradient } from 'expo-linear-gradient';
 import Svg, { Circle, Defs, LinearGradient as SvgLinearGradient, Stop } from 'react-native-svg';
 import { Colors, Fonts, FontSizes, Spacing, Gradients } from '../../constants';
 import AppHeader from '../../components/AppHeader';
-import { CaretDownIcon } from '../../components/Icon';
+import {
+  CaretDownIcon, DropletIcon, SunriseIcon,
+  BowlIcon, CookieIcon, PlusIcon,
+} from '../../components/Icon';
+
 
 // Ring math
 const RING_R = 56;
@@ -106,6 +110,56 @@ export default function NutritionScreen() {
                   style={[styles.barFill, { width: `${Math.round((m.value / m.goal) * 100)}%` }]}
                 />
               </View>
+            </View>
+          ))}
+        </View>
+
+        {/* Water tracker */}
+        <View style={styles.waterCard}>
+          <View style={styles.waterInfo}>
+            <DropletIcon size={20} color={Colors.green} />
+            <View>
+              <Text style={styles.waterTitle}>Water</Text>
+              <Text style={styles.waterSub}>3 of 8 cups</Text>
+            </View>
+          </View>
+          <View style={styles.cups}>
+            {Array.from({ length: 8 }).map((_, i) => (
+              <View key={i} style={[styles.cup, i < 3 && styles.cupFilled]} />
+            ))}
+          </View>
+        </View>
+
+        {/* Today's meals */}
+        <View style={styles.sectionHeader}>
+          <Text style={styles.sectionTitle}>Today's meals</Text>
+          <Text style={styles.sectionMore}>+ Add</Text>
+        </View>
+        <View style={styles.mealsList}>
+          {[
+            { Icon: SunriseIcon, title: 'Breakfast', sub: 'Oatmeal & berries',      kcal: 420,  done: true  },
+            { Icon: BowlIcon,    title: 'Lunch',     sub: 'Grilled chicken bowl',   kcal: 720,  done: true  },
+            { Icon: BowlIcon,    title: 'Dinner',    sub: 'Add your meal',           kcal: null, done: false },
+            { Icon: CookieIcon,  title: 'Snacks',    sub: 'Greek yogurt & nuts',    kcal: 700,  done: true  },
+          ].map((meal) => (
+            <View key={meal.title} style={[styles.mealRow, meal.done && styles.mealDone]}>
+              <View style={[styles.mealIcon, meal.done && styles.mealIconDone]}>
+                <meal.Icon size={20} color={meal.done ? Colors.green : Colors.textSecondary} />
+              </View>
+              <View style={styles.mealText}>
+                <Text style={styles.mealTitle}>{meal.title}</Text>
+                <Text style={styles.mealSub}>{meal.sub}</Text>
+              </View>
+              {meal.kcal != null ? (
+                <Text style={styles.mealKcal}>
+                  {meal.kcal}
+                  <Text style={styles.mealKcalUnit}> kcal</Text>
+                </Text>
+              ) : (
+                <TouchableOpacity style={styles.addBtn} activeOpacity={0.8}>
+                  <PlusIcon size={16} color={Colors.white} />
+                </TouchableOpacity>
+              )}
             </View>
           ))}
         </View>
@@ -247,5 +301,121 @@ const styles = StyleSheet.create({
   barFill: {
     height: '100%',
     borderRadius: 99,
+  },
+  // Water tracker
+  waterCard: {
+    backgroundColor: Colors.surface,
+    borderRadius: Spacing.cardRadius,
+    padding: 18,
+    marginBottom: 22,
+    gap: 14,
+  },
+  waterInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  waterTitle: {
+    fontFamily: Fonts.body,
+    fontSize: 15,
+    fontWeight: '700',
+    color: Colors.white,
+  },
+  waterSub: {
+    fontFamily: Fonts.body,
+    fontSize: FontSizes.label,
+    color: Colors.textSecondary,
+    marginTop: 2,
+  },
+  cups: {
+    flexDirection: 'row',
+    gap: 6,
+  },
+  cup: {
+    flex: 1,
+    height: 10,
+    borderRadius: 99,
+    backgroundColor: Colors.surfaceRaised,
+  },
+  cupFilled: {
+    backgroundColor: Colors.green,
+  },
+  // Meals
+  sectionHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  sectionTitle: {
+    fontFamily: Fonts.body,
+    fontSize: 16,
+    fontWeight: '700',
+    color: Colors.white,
+  },
+  sectionMore: {
+    fontFamily: Fonts.body,
+    fontSize: FontSizes.label,
+    color: Colors.textSecondary,
+  },
+  mealsList: {
+    gap: 10,
+  },
+  mealRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: Colors.surface,
+    borderRadius: 16,
+    padding: 14,
+    gap: 14,
+  },
+  mealDone: {
+    opacity: 0.85,
+  },
+  mealIcon: {
+    width: 44,
+    height: 44,
+    borderRadius: 12,
+    backgroundColor: Colors.surfaceRaised,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  mealIconDone: {
+    backgroundColor: 'rgba(95,208,138,0.15)',
+  },
+  mealText: {
+    flex: 1,
+    gap: 3,
+  },
+  mealTitle: {
+    fontFamily: Fonts.body,
+    fontSize: 15,
+    fontWeight: '700',
+    color: Colors.white,
+  },
+  mealSub: {
+    fontFamily: Fonts.body,
+    fontSize: FontSizes.label,
+    color: Colors.textSecondary,
+  },
+  mealKcal: {
+    fontFamily: Fonts.body,
+    fontSize: 15,
+    fontWeight: '700',
+    color: Colors.white,
+  },
+  mealKcalUnit: {
+    fontFamily: Fonts.body,
+    fontSize: FontSizes.label,
+    fontWeight: '400',
+    color: Colors.textSecondary,
+  },
+  addBtn: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: Colors.surfaceRaised,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
