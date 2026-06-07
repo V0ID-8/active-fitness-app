@@ -10,13 +10,41 @@ import { Colors, Fonts, FontSizes, Spacing } from '../../constants';
 import TopNav from '../../components/TopNav';
 import GradientButton from '../../components/GradientButton';
 import { MailIcon, LockIcon, EyeIcon } from '../../components/Icon';
+import { onboardingStore } from '../../utils/onboardingStore';
 
 type Props = {
   navigation: NativeStackNavigationProp<RootStackParamList, 'CreateAccount'>;
 };
 
 export default function CreateAccountScreen({ navigation }: Props) {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState('');
+
+  function handleContinue() {
+    const trimmedEmail = email.trim();
+
+    if (!trimmedEmail || !password) {
+      setError('Please fill in both fields.');
+      return;
+    }
+    if (!trimmedEmail.includes('@')) {
+      setError('Please enter a valid email address.');
+      return;
+    }
+    if (password.length < 6) {
+      setError('Password must be at least 6 characters.');
+      return;
+    }
+
+    // Store credentials temporarily — account is created at the end of onboarding (DoneScreen)
+    onboardingStore.email = trimmedEmail;
+    onboardingStore.password = password;
+
+    setError('');
+    navigation.navigate('Gender');
+  }
 
   return (
     <SafeAreaView style={styles.safe}>
@@ -40,9 +68,12 @@ export default function CreateAccountScreen({ navigation }: Props) {
             <MailIcon color={Colors.textSecondary} />
             <TextInput
               style={styles.input}
-              defaultValue="alex@active.fit"
+              value={email}
+              onChangeText={(v) => { setEmail(v); setError(''); }}
               keyboardType="email-address"
               autoCapitalize="none"
+              autoCorrect={false}
+              placeholder="you@example.com"
               placeholderTextColor={Colors.textTertiary}
             />
           </View>
@@ -53,8 +84,10 @@ export default function CreateAccountScreen({ navigation }: Props) {
             <LockIcon color={Colors.textSecondary} />
             <TextInput
               style={[styles.input, { flex: 1 }]}
+              value={password}
+              onChangeText={(v) => { setPassword(v); setError(''); }}
               secureTextEntry={!showPassword}
-              defaultValue="password"
+              placeholder="Min. 6 characters"
               placeholderTextColor={Colors.textTertiary}
             />
             <TouchableOpacity
@@ -64,13 +97,12 @@ export default function CreateAccountScreen({ navigation }: Props) {
               <EyeIcon color={showPassword ? Colors.white : Colors.textSecondary} />
             </TouchableOpacity>
           </View>
+
+          {error ? <Text style={styles.errorText}>{error}</Text> : null}
         </ScrollView>
 
         <View style={styles.footer}>
-          <GradientButton
-            label="Continue"
-            onPress={() => navigation.navigate('Gender')}
-          />
+          <GradientButton label="Continue" onPress={handleContinue} />
         </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
@@ -129,5 +161,11 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.body,
     fontSize: FontSizes.body,
     color: Colors.white,
+  },
+  errorText: {
+    fontFamily: Fonts.body,
+    fontSize: FontSizes.label,
+    color: Colors.danger,
+    marginTop: 14,
   },
 });

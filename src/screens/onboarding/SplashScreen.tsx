@@ -45,8 +45,7 @@ export default function SplashScreen({ navigation }: Props) {
             Already a member?{' '}
             <Text
               style={styles.loginLink}
-              onPress={() => navigation.navigate('CreateAccount')}
-              
+              onPress={() => navigation.navigate('Login')}
             >
               Log in
             </Text>

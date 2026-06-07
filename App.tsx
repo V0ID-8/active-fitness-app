@@ -6,8 +6,10 @@ import { useFonts, Anton_400Regular } from '@expo-google-fonts/anton';
 import { InclusiveSans_400Regular } from '@expo-google-fonts/inclusive-sans';
 import * as ExpoSplashScreen from 'expo-splash-screen';
 import RootNavigator from './src/navigation';
+import MainNavigator from './src/navigation/MainNavigator';
+import { useAuth } from './src/hooks/useAuth';
 
-// Keep the native splash screen visible while fonts load
+// Keep the native splash screen visible while fonts and auth state load
 ExpoSplashScreen.preventAutoHideAsync();
 
 export default function App() {
@@ -16,14 +18,16 @@ export default function App() {
     InclusiveSans_400Regular,
   });
 
-  // Hide the splash screen once fonts are ready
+  const { user, loading: authLoading } = useAuth();
+
   const onLayout = useCallback(async () => {
-    if (fontsLoaded) {
+    if (fontsLoaded && !authLoading) {
       await ExpoSplashScreen.hideAsync();
     }
-  }, [fontsLoaded]);
+  }, [fontsLoaded, authLoading]);
 
-  if (!fontsLoaded) {
+  // Wait for fonts AND Firebase auth state before rendering
+  if (!fontsLoaded || authLoading) {
     return null;
   }
 
@@ -31,7 +35,7 @@ export default function App() {
     <SafeAreaProvider>
       <View style={{ flex: 1 }} onLayout={onLayout}>
         <NavigationContainer>
-          <RootNavigator />
+          {user ? <MainNavigator /> : <RootNavigator />}
         </NavigationContainer>
       </View>
     </SafeAreaProvider>

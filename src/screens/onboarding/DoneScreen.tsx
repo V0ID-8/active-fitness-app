@@ -1,23 +1,40 @@
-import { StyleSheet, View, Text } from 'react-native';
+import { useState } from 'react';
+import { StyleSheet, View, Text, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../navigation';
 import { Colors, Fonts, FontSizes, Spacing, Gradients } from '../../constants';
 import GradientButton from '../../components/GradientButton';
-import { CheckIcon, FlameIcon, MuscleIcon, HeartIcon } from '../../components/Icon';
-
-type Props = {
-  navigation: NativeStackNavigationProp<RootStackParamList, 'Done'>;
-};
+import { CheckIcon, FlameIcon, HeartIcon, MuscleIcon } from '../../components/Icon';
+import { authService, getAuthErrorMessage } from '../../services/authService';
+import { onboardingStore } from '../../utils/onboardingStore';
 
 const SUMMARY = [
-  { Icon: FlameIcon,  label: 'Goal',      value: 'Gain Muscle'    },
-  { Icon: HeartIcon,  label: 'Fitness',   value: 'Intermediate'   },
-  { Icon: MuscleIcon, label: 'Plan',      value: '5 days / week'  },
+  { Icon: FlameIcon,  label: 'Goal',    value: 'Gain Muscle'   },
+  { Icon: HeartIcon,  label: 'Fitness', value: 'Intermediate'  },
+  { Icon: MuscleIcon, label: 'Plan',    value: '5 days / week' },
 ];
 
-export default function DoneScreen({ navigation }: Props) {
+export default function DoneScreen() {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  async function handleStart() {
+    setError('');
+    setLoading(true);
+    try {
+      await authService.signUp(
+        onboardingStore.email,
+        onboardingStore.password,
+        onboardingStore.displayName || 'Active User',
+      );
+      // useAuth in App.tsx detects the Firebase auth state change and
+      // automatically switches the navigator to MainNavigator — no navigation.reset needed.
+    } catch (e: any) {
+      setError(getAuthErrorMessage(e.code));
+      setLoading(false);
+    }
+  }
+
   return (
     <SafeAreaView style={styles.safe}>
       <View style={styles.body}>
@@ -55,13 +72,14 @@ export default function DoneScreen({ navigation }: Props) {
           ))}
         </View>
 
+        {error ? <Text style={styles.errorText}>{error}</Text> : null}
+
         <View style={styles.footer}>
-          <GradientButton
-            label="Start my plan"
-            onPress={() =>
-              navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
-            }
-          />
+          {loading ? (
+            <ActivityIndicator color={Colors.pink} size="large" />
+          ) : (
+            <GradientButton label="Start my plan" onPress={handleStart} />
+          )}
         </View>
       </View>
     </SafeAreaView>
@@ -79,7 +97,6 @@ const styles = StyleSheet.create({
     paddingTop: 40,
     paddingBottom: 20,
   },
-  // Hero
   heroWrap: {
     alignItems: 'center',
     marginBottom: 36,
@@ -99,7 +116,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  // Text
   headline: {
     fontFamily: Fonts.display,
     fontSize: FontSizes.onboardingHeadline,
@@ -115,13 +131,12 @@ const styles = StyleSheet.create({
     lineHeight: 22,
     marginBottom: 36,
   },
-  // Summary card
   summaryBox: {
     backgroundColor: Colors.surface,
     borderRadius: Spacing.cardRadius,
     paddingVertical: 6,
     paddingHorizontal: 20,
-    marginBottom: 40,
+    marginBottom: 24,
   },
   summaryRow: {
     flexDirection: 'row',
@@ -153,6 +168,13 @@ const styles = StyleSheet.create({
     fontSize: FontSizes.body,
     fontWeight: '700',
     color: Colors.white,
+  },
+  errorText: {
+    fontFamily: Fonts.body,
+    fontSize: FontSizes.label,
+    color: Colors.danger,
+    textAlign: 'center',
+    marginBottom: 12,
   },
   footer: {
     marginTop: 'auto',
