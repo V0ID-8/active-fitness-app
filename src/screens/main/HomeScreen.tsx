@@ -124,6 +124,27 @@ export default function HomeScreen() {
             ))}
           </View>
         </View>
+
+        {/* Explore grid */}
+        <View style={styles.sectionHeader}>
+          <Text style={styles.sectionTitle}>Explore</Text>
+        </View>
+        <View style={styles.grid}>
+          {[
+            { Icon: DumbbellIcon,  label: 'Workouts',     sub: 'Plans for your goal'   },
+            { Icon: NutritionIcon, label: 'Nutrition',    sub: 'Calories & protein'    },
+            { Icon: BarChartIcon,  label: 'Progress',     sub: 'Track your results'    },
+            { Icon: TrophyIcon,    label: 'Achievements', sub: 'Your milestones'       },
+          ].map((item) => (
+            <TouchableOpacity key={item.label} style={styles.featureCard} activeOpacity={0.85}>
+              <View style={styles.featureIcon}>
+                <item.Icon size={24} color={Colors.pink} />
+              </View>
+              <Text style={styles.featureLabel}>{item.label}</Text>
+              <Text style={styles.featureSub}>{item.sub}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -381,5 +402,38 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.body,
     fontSize: FontSizes.labelSmall,
     color: Colors.textTertiary,
+  },
+  // Explore grid
+  grid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 12,
+  },
+  featureCard: {
+    width: '47.5%',
+    backgroundColor: Colors.surface,
+    borderRadius: Spacing.cardRadius,
+    padding: 18,
+    gap: 8,
+  },
+  featureIcon: {
+    width: 44,
+    height: 44,
+    borderRadius: 12,
+    backgroundColor: Colors.surfaceRaised,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 4,
+  },
+  featureLabel: {
+    fontFamily: Fonts.body,
+    fontSize: 15,
+    fontWeight: '700',
+    color: Colors.white,
+  },
+  featureSub: {
+    fontFamily: Fonts.body,
+    fontSize: FontSizes.label,
+    color: Colors.textSecondary,
   },
 });

@@ -1,13 +1,161 @@
-import { View, Text } from 'react-native';
-import { Colors, Fonts } from '../../constants';
+import { StyleSheet, View, Text } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { LinearGradient } from 'expo-linear-gradient';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../navigation';
+import { Colors, Fonts, FontSizes, Spacing, Gradients } from '../../constants';
+import GradientButton from '../../components/GradientButton';
+import { CheckIcon, FlameIcon, MuscleIcon, HeartIcon } from '../../components/Icon';
 
-// Placeholder — replaced in Step 7
-export default function DoneScreen() {
+type Props = {
+  navigation: NativeStackNavigationProp<RootStackParamList, 'Done'>;
+};
+
+const SUMMARY = [
+  { Icon: FlameIcon,  label: 'Goal',      value: 'Gain Muscle'    },
+  { Icon: HeartIcon,  label: 'Fitness',   value: 'Intermediate'   },
+  { Icon: MuscleIcon, label: 'Plan',      value: '5 days / week'  },
+];
+
+export default function DoneScreen({ navigation }: Props) {
   return (
-    <View style={{ flex: 1, backgroundColor: Colors.background, alignItems: 'center', justifyContent: 'center' }}>
-      <Text style={{ fontFamily: Fonts.body, color: Colors.textSecondary }}>
-        All Set Screen — coming in Step 7
-      </Text>
-    </View>
+    <SafeAreaView style={styles.safe}>
+      <View style={styles.body}>
+
+        {/* Hero: gradient ring + check */}
+        <View style={styles.heroWrap}>
+          <LinearGradient
+            colors={Gradients.primary.colors}
+            start={Gradients.primary.start}
+            end={Gradients.primary.end}
+            style={styles.ring}
+          >
+            <View style={styles.ringInner}>
+              <CheckIcon size={38} color={Colors.white} />
+            </View>
+          </LinearGradient>
+        </View>
+
+        {/* Headline */}
+        <Text style={styles.headline}>You're{'\n'}all set.</Text>
+        <Text style={styles.sub}>
+          Your personalised plan is ready. Time to get to work.
+        </Text>
+
+        {/* Summary rows */}
+        <View style={styles.summaryBox}>
+          {SUMMARY.map(({ Icon, label, value }, i) => (
+            <View key={label} style={[styles.summaryRow, i === SUMMARY.length - 1 && styles.summaryRowLast]}>
+              <View style={styles.summaryIcon}>
+                <Icon size={18} color={Colors.pink} />
+              </View>
+              <Text style={styles.summaryLabel}>{label}</Text>
+              <Text style={styles.summaryValue}>{value}</Text>
+            </View>
+          ))}
+        </View>
+
+        <View style={styles.footer}>
+          <GradientButton
+            label="Start my plan"
+            onPress={() =>
+              navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
+            }
+          />
+        </View>
+      </View>
+    </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  safe: {
+    flex: 1,
+    backgroundColor: Colors.background,
+  },
+  body: {
+    flex: 1,
+    paddingHorizontal: Spacing.screenHorizontalOnboarding,
+    paddingTop: 40,
+    paddingBottom: 20,
+  },
+  // Hero
+  heroWrap: {
+    alignItems: 'center',
+    marginBottom: 36,
+  },
+  ring: {
+    width: 110,
+    height: 110,
+    borderRadius: 55,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  ringInner: {
+    width: 86,
+    height: 86,
+    borderRadius: 43,
+    backgroundColor: 'rgba(0,0,0,0.25)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  // Text
+  headline: {
+    fontFamily: Fonts.display,
+    fontSize: FontSizes.onboardingHeadline,
+    color: Colors.white,
+    letterSpacing: 0.5,
+    textTransform: 'uppercase',
+    marginBottom: 12,
+  },
+  sub: {
+    fontFamily: Fonts.body,
+    fontSize: FontSizes.body,
+    color: Colors.textSecondary,
+    lineHeight: 22,
+    marginBottom: 36,
+  },
+  // Summary card
+  summaryBox: {
+    backgroundColor: Colors.surface,
+    borderRadius: Spacing.cardRadius,
+    paddingVertical: 6,
+    paddingHorizontal: 20,
+    marginBottom: 40,
+  },
+  summaryRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 14,
+    paddingVertical: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.border,
+  },
+  summaryRowLast: {
+    borderBottomWidth: 0,
+  },
+  summaryIcon: {
+    width: 36,
+    height: 36,
+    borderRadius: 10,
+    backgroundColor: Colors.surfaceRaised,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  summaryLabel: {
+    flex: 1,
+    fontFamily: Fonts.body,
+    fontSize: FontSizes.body,
+    color: Colors.textSecondary,
+  },
+  summaryValue: {
+    fontFamily: Fonts.body,
+    fontSize: FontSizes.body,
+    fontWeight: '700',
+    color: Colors.white,
+  },
+  footer: {
+    marginTop: 'auto',
+    paddingBottom: 4,
+  },
+});
