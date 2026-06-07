@@ -21,16 +21,16 @@ export default function CreateAccountScreen({ navigation }: Props) {
   return (
     <SafeAreaView style={styles.safe}>
       <KeyboardAvoidingView
-        style={{ flex: 1 }}
+        style={styles.body}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       >
+        <TopNav step={1} onBack={() => navigation.goBack()} />
+
         <ScrollView
           contentContainerStyle={styles.scroll}
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
         >
-          <TopNav step={1} onBack={() => navigation.goBack()} />
-
           <Text style={styles.headline}>Create{'\n'}your account</Text>
           <Text style={styles.sub}>Start your fitness journey with Active.</Text>
 
@@ -64,13 +64,14 @@ export default function CreateAccountScreen({ navigation }: Props) {
               <EyeIcon color={showPassword ? Colors.white : Colors.textSecondary} />
             </TouchableOpacity>
           </View>
+        </ScrollView>
 
+        <View style={styles.footer}>
           <GradientButton
             label="Continue"
             onPress={() => navigation.navigate('Gender')}
-            style={styles.continueButton}
           />
-        </ScrollView>
+        </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
@@ -81,10 +82,17 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.background,
   },
-  scroll: {
+  body: {
+    flex: 1,
     paddingHorizontal: Spacing.screenHorizontalOnboarding,
     paddingTop: 8,
-    paddingBottom: 32,
+  },
+  scroll: {
+    paddingBottom: 12,
+  },
+  footer: {
+    paddingBottom: 20,
+    paddingTop: 24,
   },
   headline: {
     fontFamily: Fonts.display,
@@ -121,8 +129,5 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.body,
     fontSize: FontSizes.body,
     color: Colors.white,
-  },
-  continueButton: {
-    marginTop: 40,
   },
 });

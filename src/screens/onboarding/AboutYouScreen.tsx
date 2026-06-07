@@ -26,104 +26,107 @@ export default function AboutYouScreen({ navigation }: Props) {
 
   return (
     <SafeAreaView style={styles.safe}>
-      <ScrollView
-        contentContainerStyle={styles.scroll}
-        showsVerticalScrollIndicator={false}
-      >
+      <View style={styles.body}>
         <TopNav step={3} onBack={() => navigation.goBack()} />
 
-        <Text style={styles.headline}>About you</Text>
-        <Text style={styles.sub}>A few details to tailor your plan.</Text>
+        <ScrollView
+          contentContainerStyle={styles.scroll}
+          showsVerticalScrollIndicator={false}
+        >
+          <Text style={styles.headline}>About you</Text>
+          <Text style={styles.sub}>A few details to tailor your plan.</Text>
 
-        {/* Age */}
-        <StatCard>
-          <View style={styles.statRow}>
-            <View>
-              <Text style={styles.statLabel}>Age</Text>
+          {/* Age */}
+          <StatCard>
+            <View style={styles.statRow}>
+              <View>
+                <Text style={styles.statLabel}>Age</Text>
+                <Text style={styles.statValue}>
+                  {age}
+                  <Text style={styles.unit}> years</Text>
+                </Text>
+              </View>
+              <View style={styles.stepper}>
+                <TouchableOpacity
+                  style={styles.stepBtn}
+                  onPress={() => setAge((a) => Math.max(16, a - 1))}
+                  activeOpacity={0.75}
+                >
+                  <Text style={styles.stepBtnText}>−</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.stepBtn}
+                  onPress={() => setAge((a) => Math.min(80, a + 1))}
+                  activeOpacity={0.75}
+                >
+                  <Text style={styles.stepBtnText}>+</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </StatCard>
+
+          {/* Height */}
+          <StatCard>
+            <View style={styles.statRow}>
+              <Text style={styles.statLabel}>Height</Text>
               <Text style={styles.statValue}>
-                {age}
-                <Text style={styles.unit}> years</Text>
+                {height}
+                <Text style={styles.unit}> cm</Text>
               </Text>
             </View>
-            <View style={styles.stepper}>
-              <TouchableOpacity
-                style={styles.stepBtn}
-                onPress={() => setAge((a) => Math.max(16, a - 1))}
-                activeOpacity={0.75}
-              >
-                <Text style={styles.stepBtnText}>−</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.stepBtn}
-                onPress={() => setAge((a) => Math.min(80, a + 1))}
-                activeOpacity={0.75}
-              >
-                <Text style={styles.stepBtnText}>+</Text>
-              </TouchableOpacity>
+            <Slider
+              style={styles.slider}
+              value={height}
+              onValueChange={(v) => setHeight(Math.round(v))}
+              minimumValue={140}
+              maximumValue={200}
+              step={1}
+              minimumTrackTintColor={Colors.pink}
+              maximumTrackTintColor={Colors.border}
+              thumbTintColor={Colors.white}
+            />
+            <View style={styles.ticks}>
+              {['140', '160', '180', '200'].map((t) => (
+                <Text key={t} style={styles.tick}>{t}</Text>
+              ))}
             </View>
-          </View>
-        </StatCard>
+          </StatCard>
 
-        {/* Height */}
-        <StatCard>
-          <View style={styles.statRow}>
-            <Text style={styles.statLabel}>Height</Text>
-            <Text style={styles.statValue}>
-              {height}
-              <Text style={styles.unit}> cm</Text>
-            </Text>
-          </View>
-          <Slider
-            style={styles.slider}
-            value={height}
-            onValueChange={(v) => setHeight(Math.round(v))}
-            minimumValue={140}
-            maximumValue={200}
-            step={1}
-            minimumTrackTintColor={Colors.pink}
-            maximumTrackTintColor={Colors.border}
-            thumbTintColor={Colors.white}
+          {/* Weight */}
+          <StatCard>
+            <View style={styles.statRow}>
+              <Text style={styles.statLabel}>Weight</Text>
+              <Text style={styles.statValue}>
+                {weight}
+                <Text style={styles.unit}> kg</Text>
+              </Text>
+            </View>
+            <Slider
+              style={styles.slider}
+              value={weight}
+              onValueChange={(v) => setWeight(Math.round(v))}
+              minimumValue={40}
+              maximumValue={130}
+              step={1}
+              minimumTrackTintColor={Colors.pink}
+              maximumTrackTintColor={Colors.border}
+              thumbTintColor={Colors.white}
+            />
+            <View style={styles.ticks}>
+              {['40', '70', '100', '130'].map((t) => (
+                <Text key={t} style={styles.tick}>{t}</Text>
+              ))}
+            </View>
+          </StatCard>
+        </ScrollView>
+
+        <View style={styles.footer}>
+          <GradientButton
+            label="Continue"
+            onPress={() => navigation.navigate('Goal')}
           />
-          <View style={styles.ticks}>
-            {['140', '160', '180', '200'].map((t) => (
-              <Text key={t} style={styles.tick}>{t}</Text>
-            ))}
-          </View>
-        </StatCard>
-
-        {/* Weight */}
-        <StatCard>
-          <View style={styles.statRow}>
-            <Text style={styles.statLabel}>Weight</Text>
-            <Text style={styles.statValue}>
-              {weight}
-              <Text style={styles.unit}> kg</Text>
-            </Text>
-          </View>
-          <Slider
-            style={styles.slider}
-            value={weight}
-            onValueChange={(v) => setWeight(Math.round(v))}
-            minimumValue={40}
-            maximumValue={130}
-            step={1}
-            minimumTrackTintColor={Colors.pink}
-            maximumTrackTintColor={Colors.border}
-            thumbTintColor={Colors.white}
-          />
-          <View style={styles.ticks}>
-            {['40', '70', '100', '130'].map((t) => (
-              <Text key={t} style={styles.tick}>{t}</Text>
-            ))}
-          </View>
-        </StatCard>
-
-        <GradientButton
-          label="Continue"
-          onPress={() => navigation.navigate('Goal')}
-          style={{ marginTop: 8 }}
-        />
-      </ScrollView>
+        </View>
+      </View>
     </SafeAreaView>
   );
 }
@@ -133,10 +136,17 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.background,
   },
-  scroll: {
+  body: {
+    flex: 1,
     paddingHorizontal: Spacing.screenHorizontalOnboarding,
     paddingTop: 8,
-    paddingBottom: 32,
+  },
+  scroll: {
+    paddingBottom: 12,
+  },
+  footer: {
+    paddingBottom: 20,
+    paddingTop: 24,
   },
   headline: {
     fontFamily: Fonts.display,

@@ -97,33 +97,37 @@ export default function GoalScreen({ navigation }: Props) {
 
   return (
     <SafeAreaView style={styles.safe}>
-      <ScrollView
-        contentContainerStyle={styles.scroll}
-        showsVerticalScrollIndicator={false}
-      >
+      <View style={styles.body}>
         <TopNav step={4} onBack={() => navigation.goBack()} />
 
-        <Text style={styles.headline}>What's{'\n'}your goal?</Text>
-        <Text style={styles.sub}>Pick one — you can change it anytime.</Text>
+        <ScrollView
+          contentContainerStyle={styles.scroll}
+          showsVerticalScrollIndicator={false}
+        >
+          <Text style={styles.headline}>What's{'\n'}your goal?</Text>
+          <Text style={styles.sub}>Pick one — you can change it anytime.</Text>
 
-        <View style={styles.options}>
-          {OPTIONS.map((o) => (
-            <OptionRow
-              key={o.key}
-              icon={o.icon}
-              title={o.title}
-              subtitle={o.subtitle}
-              selected={selected === o.key}
-              onPress={() => setSelected(o.key)}
-            />
-          ))}
+          <View style={styles.options}>
+            {OPTIONS.map((o) => (
+              <OptionRow
+                key={o.key}
+                icon={o.icon}
+                title={o.title}
+                subtitle={o.subtitle}
+                selected={selected === o.key}
+                onPress={() => setSelected(o.key)}
+              />
+            ))}
+          </View>
+        </ScrollView>
+
+        <View style={styles.footer}>
+          <GradientButton
+            label="Create my plan"
+            onPress={() => navigation.navigate('Done')}
+          />
         </View>
-
-        <GradientButton
-          label="Create my plan"
-          onPress={() => navigation.navigate('Done')}
-        />
-      </ScrollView>
+      </View>
     </SafeAreaView>
   );
 }
@@ -133,10 +137,17 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.background,
   },
-  scroll: {
+  body: {
+    flex: 1,
     paddingHorizontal: Spacing.screenHorizontalOnboarding,
     paddingTop: 8,
-    paddingBottom: 32,
+  },
+  scroll: {
+    paddingBottom: 12,
+  },
+  footer: {
+    paddingBottom: 20,
+    paddingTop: 24,
   },
   headline: {
     fontFamily: Fonts.display,

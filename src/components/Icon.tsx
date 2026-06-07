@@ -94,3 +94,82 @@ export const CheckIcon = ({ size = 14, color = '#fff' }: Props) => (
     />
   </Svg>
 );
+
+
+// Tab bar icons
+export const HomeIcon = ({ size = 24, color = '#fff' }: Props) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24">
+    <Path d="M4 11 12 4l8 7" {...s(color)} />
+    <Path d="M6 9.5V20h12V9.5" {...s(color)} />
+  </Svg>
+);
+
+export const DumbbellIcon = ({ size = 24, color = '#fff' }: Props) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24">
+    <Path d="M3 9.5v5M6 7.5v9M18 7.5v9M21 9.5v5M6 12h12" {...s(color)} strokeWidth={1.9} />
+  </Svg>
+);
+
+export const NutritionIcon = ({ size = 24, color = '#fff' }: Props) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24">
+    <Path d="M12 8c-1.5-2.8-5.5-3-7 0-1.4 2.8.6 8 3 10 1.2 1 2.8 1 4 0 2.4-2 4.4-7.2 3-10-1.5-3-5.5-2.8-7 0" {...s(color)} />
+    <Path d="M12 8c0-2 1-3.5 3-4" {...s(color)} />
+  </Svg>
+);
+
+export const BarChartIcon = ({ size = 24, color = '#fff' }: Props) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24">
+    <Path d="M4 19V5" {...s(color)} />
+    <Path d="M4 19h16" {...s(color)} />
+    <Rect x="7" y="11" width="3" height="5" rx="1" {...s(color)} />
+    <Rect x="12.5" y="7" width="3" height="9" rx="1" {...s(color)} />
+    <Rect x="18" y="13" width="3" height="3" rx="1" {...s(color)} />
+  </Svg>
+);
+
+export const UserIcon = ({ size = 24, color = '#fff' }: Props) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24">
+    <Circle cx="12" cy="8" r="3.6" {...s(color)} />
+    <Path d="M5 20a7 7 0 0 1 14 0" {...s(color)} />
+  </Svg>
+);
+
+// Home screen icons
+export const BellIcon = ({ size = 22, color = '#fff' }: Props) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24">
+    <Path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" {...s(color)} />
+    <Path d="M13.7 21a2 2 0 0 1-3.4 0" {...s(color)} />
+  </Svg>
+);
+
+// PlayIcon uses fill, not stroke, so s() is not used here
+export const PlayIcon = ({ size = 20, color = '#fff' }: { size?: number; color?: string }) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24">
+    <Path d="M8 5.5v13l11-6.5z" fill={color} />
+  </Svg>
+);
+
+export const DropletIcon = ({ size = 18, color = '#fff' }: Props) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24">
+    <Path d="M12 3s6 6.3 6 11a6 6 0 0 1-12 0c0-4.7 6-11 6-11Z" {...s(color)} />
+  </Svg>
+);
+
+export const BoltIcon = ({ size = 18, color = '#fff' }: Props) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24">
+    <Path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z" {...s(color)} />
+  </Svg>
+);
+
+export const ChevronRightIcon = ({ size = 20, color = '#fff' }: Props) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24">
+    <Polyline points="9 6 15 12 9 18" stroke={color} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" fill="none" />
+  </Svg>
+);
+
+export const TrophyIcon = ({ size = 24, color = '#fff' }: Props) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24">
+    <Path d="M7 4h10v5a5 5 0 0 1-10 0V4Z" {...s(color)} />
+    <Path d="M7 6H4v1a3 3 0 0 0 3 3M17 6h3v1a3 3 0 0 1-3 3M9 19h6M12 14v5" {...s(color)} />
+  </Svg>
+);

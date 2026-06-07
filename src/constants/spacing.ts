@@ -4,6 +4,8 @@ export const Spacing = {
   // Screen padding
   screenHorizontalOnboarding: 28,
   screenHorizontalApp: 22,
+  // Bottom padding needed on scrollable screens to clear the floating tab bar
+  tabBarOffset: 110,
 
   // Gaps
   sectionGap: 22,
