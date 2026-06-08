@@ -119,3 +119,15 @@ export interface FoodItem {
 }
 
 export type MealType = 'breakfast' | 'lunch' | 'dinner' | 'snacks';
+
+// ─── Workout Plan ─────────────────────────────────────────────────────────────
+
+export interface DayPlan {
+  dayIndex: number;
+  dayName: string;
+  workoutType: string;
+  programName: string;
+  exercises: Exercise[];
+  estimatedMinutes: number;
+  isRestDay: boolean;
+}

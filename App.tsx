@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -8,6 +8,7 @@ import * as ExpoSplashScreen from 'expo-splash-screen';
 import RootNavigator from './src/navigation';
 import MainNavigator from './src/navigation/MainNavigator';
 import { useAuth } from './src/hooks/useAuth';
+import { exerciseService } from './src/services/exerciseService';
 
 // Keep the native splash screen visible while fonts and auth state load
 ExpoSplashScreen.preventAutoHideAsync();
@@ -19,6 +20,13 @@ export default function App() {
   });
 
   const { user, loading: authLoading } = useAuth();
+
+  // Seed the exercise library to Firestore once after first login
+  useEffect(() => {
+    if (user) {
+      exerciseService.seedExercises().catch(console.error);
+    }
+  }, [user]);
 
   const onLayout = useCallback(async () => {
     if (fontsLoaded && !authLoading) {
