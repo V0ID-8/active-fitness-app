@@ -6,7 +6,7 @@ import { useFonts, Anton_400Regular } from '@expo-google-fonts/anton';
 import { InclusiveSans_400Regular } from '@expo-google-fonts/inclusive-sans';
 import * as ExpoSplashScreen from 'expo-splash-screen';
 import RootNavigator from './src/navigation';
-import MainNavigator from './src/navigation/MainNavigator';
+import MainStackNavigator from './src/navigation/MainStackNavigator';
 import { useAuth } from './src/hooks/useAuth';
 import { exerciseService } from './src/services/exerciseService';
 
@@ -43,7 +43,7 @@ export default function App() {
     <SafeAreaProvider>
       <View style={{ flex: 1 }} onLayout={onLayout}>
         <NavigationContainer>
-          {user ? <MainNavigator /> : <RootNavigator />}
+          {user ? <MainStackNavigator /> : <RootNavigator />}
         </NavigationContainer>
       </View>
     </SafeAreaProvider>

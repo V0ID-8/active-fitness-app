@@ -1,5 +1,5 @@
 import {
-  collection, addDoc, getDocs, doc, updateDoc,
+  collection, addDoc, getDocs, doc, getDoc, updateDoc,
   query, where, orderBy, limit, serverTimestamp,
 } from 'firebase/firestore';
 import { db } from '../config/firebase';
@@ -7,6 +7,9 @@ import { WorkoutSession } from '../types';
 
 const sessionsCol = (uid: string) =>
   collection(db, 'users', uid, 'workoutSessions');
+
+const sessionDoc = (uid: string, sessionId: string) =>
+  doc(db, 'users', uid, 'workoutSessions', sessionId);
 
 export const workoutService = {
   async logWorkoutSession(
@@ -35,21 +38,30 @@ export const workoutService = {
     exerciseIndex: number,
     completed: boolean,
   ): Promise<void> {
-    // Read the session, update the specific exercise, write back
-    const sessionsSnapshot = await getDocs(
-      query(sessionsCol(uid), where('__name__', '==', sessionId), limit(1)),
-    );
-    if (sessionsSnapshot.empty) return;
-
-    const sessionDoc = sessionsSnapshot.docs[0];
-    const data = sessionDoc.data() as WorkoutSession;
+    const ref  = sessionDoc(uid, sessionId);
+    const snap = await getDoc(ref);
+    if (!snap.exists()) return;
+    const data = snap.data() as WorkoutSession;
     const updated = data.exercises.map((ex, i) =>
       i === exerciseIndex ? { ...ex, completed } : ex,
     );
+    await updateDoc(ref, { exercises: updated });
+  },
 
-    await updateDoc(doc(db, 'users', uid, 'workoutSessions', sessionId), {
-      exercises: updated,
-    });
+  async markSessionComplete(uid: string, sessionId: string): Promise<void> {
+    await updateDoc(sessionDoc(uid, sessionId), { completed: true });
+  },
+
+  async addExercisesToSession(
+    uid: string,
+    sessionId: string,
+    newEntries: WorkoutSession['exercises'],
+  ): Promise<void> {
+    const ref  = sessionDoc(uid, sessionId);
+    const snap = await getDoc(ref);
+    if (!snap.exists()) return;
+    const data = snap.data() as WorkoutSession;
+    await updateDoc(ref, { exercises: [...data.exercises, ...newEntries] });
   },
 
   async getWorkoutHistory(uid: string, limitCount = 20): Promise<WorkoutSession[]> {
