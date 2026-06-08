@@ -44,3 +44,5 @@ yarn-error.*
 
 # AI tooling
 .claude/
+CLAUDE.md
+AGENTS.md
